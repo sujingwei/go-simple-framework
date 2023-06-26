@@ -20,16 +20,22 @@ func autoConfig() {
 
 // 全局handler
 func bootstrapHandleFunc() {
+	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("favicon.ico"))
+	})
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		// Handle全局异常处理
 		defer func() {
 			if err := recover(); err != nil {
+				w.WriteHeader(http.StatusBadRequest)
 				log.Printf("%+v\n", err) // 是使用全局异常处理，还是打开异常，可以通过配置文件配置
 				w.Write([]byte(fmt.Sprintf("%s", err)))
 			}
 		}()
 		// 创建&Context实例
 		c := NewContext(w, r)
+
 		// 如果有中间件，执行中间件
 		b, err := execMiddleware(c)
 		if err != nil {
@@ -43,7 +49,6 @@ func bootstrapHandleFunc() {
 			}
 			controller.controllerFun(c) // 执行路由方法
 		}
-		c.String(200, "success")
 	})
 }
 
@@ -70,7 +75,6 @@ func execMiddleware(c *Context) (rs bool, err error) {
 // 获取当前路由要执行的中间件
 func useRouteMiddleware(path string) []*Middleware {
 	var useMiddlewares []*Middleware
-	log.Printf("%+v\n", "aaa")
 	if middlewares != nil && len(middlewares) > 0 {
 		for _, m := range middlewares {
 			if m.SkipUrl != nil && len(m.SkipUrl) > 0 {
@@ -91,18 +95,16 @@ func useRouteMiddleware(path string) []*Middleware {
 				useMiddlewares = append(useMiddlewares, m)
 			} else {
 				b, err := PathMatcher(m.Rule, path)
+				// log.Printf("bbb:%v,%v\t[%+v, %+v]\n", m.Rule, path, b, err)
 				if err != nil {
 					panic(err)
 				}
 				if b {
-					if useMiddlewares == nil {
-						useMiddlewares = make([]*Middleware, 10, 10)
-					}
 					useMiddlewares = append(useMiddlewares, m)
 				}
 			}
 		}
 	}
-	log.Printf("%+v\n", "bbb")
+	log.Printf("%+v\n", len(useMiddlewares))
 	return useMiddlewares
 }
