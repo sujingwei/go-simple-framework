@@ -1,0 +1,5 @@
+package webframework
+
+func WebBootstrap() {
+
+}
