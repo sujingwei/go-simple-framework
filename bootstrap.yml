@@ -1,0 +1,9 @@
+app:
+    name: "Gin Application"
+web:
+    Addr: ":8082"
+    ReadTimeout: 16 
+    ReadHeaderTimeout: 0
+    WriteTimeout: 16
+    IdleTimeout: 16
+    MaxHeaderBytes: 0
