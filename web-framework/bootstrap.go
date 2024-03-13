@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-03-13 16:15:11
+ * @LastEditTime: 2024-03-13 20:29:11
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -30,11 +30,12 @@ const (
 	ANY     string = "any"
 )
 
-/**
- * @description: 可以接收的请求类型集合
- * @return {*}
- */
-var Methods [8]string = [8]string{GET, POST, DELETE, PATCH, PUT, OPTIONS, HEAD, ANY}
+var (
+	// 可以接收的请求类型集合
+	Methods [8]string = [8]string{GET, POST, DELETE, PATCH, PUT, OPTIONS, HEAD, ANY}
+	// 当前配置的副本
+	webConfigCopy WebConfig
+)
 
 /**
  * @description: 注册对象
@@ -46,13 +47,31 @@ type retistry struct {
 	handler func(*gin.Context)
 }
 
-func NewGin() *gin.Engine {
+func NewGin(webConfig *WebConfig) *gin.Engine {
+	// 将系统配置绑定到当前配置的副本中
+	webConfigCopy = *webConfig
+
 	r := gin.Default()
-
-	// 启动csrf
-	useCsrfMiddleware(r)
-
+	// 注册中间件
+	registerMiddleware(r)
 	return r
+}
+
+/**
+ * @description: 注册中间件
+ * @param {*gin.Engine} r
+ * @return {*}
+ */
+func registerMiddleware(r *gin.Engine) {
+	log.Printf("读取当前配置的副本：%+v\n", webConfigCopy)
+	if webConfigCopy.EanbledSession {
+		// 使用session中间件
+		useSessionMiddleware(r)
+	}
+	if webConfigCopy.Security.Csrf.Enabled {
+		// 启动csrf
+		useCsrfMiddleware(r)
+	}
 }
 
 /**
@@ -60,29 +79,30 @@ func NewGin() *gin.Engine {
  * @param {*gin.Engine} r
  * @return {*}
  */
-func WebStart(r *gin.Engine, webConfig *WebConfig) {
+func WebStart(r *gin.Engine) {
 	// var httpServer *http.Server
 	httpServer := &http.Server{
 		Addr:    ":8001",
 		Handler: r,
 	}
-	if webConfig.Addr != "" {
-		httpServer.Addr = webConfig.Addr
+
+	if webConfigCopy.Addr != "" {
+		httpServer.Addr = webConfigCopy.Addr
 	}
-	if webConfig.ReadTimeout > 0 {
-		httpServer.ReadTimeout = time.Duration(webConfig.ReadTimeout) * time.Second
+	if webConfigCopy.ReadTimeout > 0 {
+		httpServer.ReadTimeout = time.Duration(webConfigCopy.ReadTimeout) * time.Second
 	}
-	if webConfig.ReadHeaderTimeout > 0 {
-		httpServer.ReadHeaderTimeout = time.Duration(webConfig.ReadHeaderTimeout) * time.Second
+	if webConfigCopy.ReadHeaderTimeout > 0 {
+		httpServer.ReadHeaderTimeout = time.Duration(webConfigCopy.ReadHeaderTimeout) * time.Second
 	}
-	if webConfig.WriteTimeout > 0 {
-		httpServer.WriteTimeout = time.Duration(webConfig.WriteTimeout) * time.Second
+	if webConfigCopy.WriteTimeout > 0 {
+		httpServer.WriteTimeout = time.Duration(webConfigCopy.WriteTimeout) * time.Second
 	}
-	if webConfig.IdleTimeout > 0 {
-		httpServer.IdleTimeout = time.Duration(webConfig.IdleTimeout) * time.Second
+	if webConfigCopy.IdleTimeout > 0 {
+		httpServer.IdleTimeout = time.Duration(webConfigCopy.IdleTimeout) * time.Second
 	}
-	if webConfig.MaxHeaderBytes > 0 {
-		httpServer.MaxHeaderBytes = webConfig.MaxHeaderBytes
+	if webConfigCopy.MaxHeaderBytes > 0 {
+		httpServer.MaxHeaderBytes = webConfigCopy.MaxHeaderBytes
 	}
 	log.Printf("Start Server: %+v\n", httpServer.Addr)
 	if err := httpServer.ListenAndServe(); err != nil {

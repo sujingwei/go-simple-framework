@@ -1,3 +1,11 @@
+/*
+ * @Author: sujingwei 348149047@qq.com
+ * @Date: 2024-03-11 19:36:30
+ * @LastEditors: sujingwei 348149047@qq.com
+ * @LastEditTime: 2024-03-13 20:10:28
+ * @FilePath: \go-simple-framework\web-framework\config.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
 package webframework
 
 /**
@@ -20,4 +28,26 @@ type WebConfig struct {
 	IdleTimeout int `json:"idleTimeout" yaml:"idleTimeout"`
 	// 用于设置请求头的最大字节数。如果请求头超过该值，服务器将返回413 Request Header Fields Too Large响应。默认值为1MB
 	MaxHeaderBytes int `json:"maxHeaderBytes" yaml:"maxHeaderBytes"`
+	// 开启session
+	EanbledSession bool `json:"eanbledSession" yaml:"eanbledSession"`
+	// 安全配置
+	Security Security `json:"security" yaml:"security"`
+}
+
+type Security struct {
+	Csrf CsrfConfig `json:"csrf" yaml:"csrf"`
+	Xss  XssConfig  `json:"xss" yaml:"xss"`
+}
+
+type CsrfConfig struct {
+	// 启动csrf
+	Enabled bool `json:"enabled" yaml:"enabled"`
+	// 定义加密key
+	AuthKey string `json:"authKey" yaml:"authKey"`
+	// csrf生存时间，单位秒
+	MaxAge int `json:"maxAge" yaml:"authKey"`
+}
+type XssConfig struct {
+	// 启动csrf
+	Enabled bool `json:"enabled" yaml:"enabled"`
 }

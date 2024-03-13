@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 19:48:31
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-03-13 13:52:07
+ * @LastEditTime: 2024-03-13 18:01:43
  * @FilePath: \go-simple-framework\main.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -29,7 +29,7 @@ func init() {
  */
 func main() {
 	// gin.SetMode("release")
-	var r *gin.Engine = webframework.NewGin()
+	var r *gin.Engine = webframework.NewGin(&AppConfig.Web)
 	route.RetistryRouter(r) // 配置 gin 路由
-	webframework.WebStart(r, &AppConfig.Web)
+	webframework.WebStart(r)
 }
