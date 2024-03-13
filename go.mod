@@ -6,8 +6,10 @@ require (
 	github.com/fatih/structs v1.1.0
 	github.com/gin-gonic/gin v1.9.1
 	github.com/gohutool/boot4go-pathmatcher v1.0.0
-	github.com/gorilla/securecookie v1.1.1
+	github.com/gorilla/csrf v1.7.2
+	github.com/gorilla/securecookie v1.1.2
 	github.com/gorilla/sessions v1.2.1
+	github.com/gwatts/gin-adapter v1.0.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/spf13/viper v1.18.2
 )

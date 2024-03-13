@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-03-12 19:40:24
+ * @LastEditTime: 2024-03-13 16:15:11
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -44,6 +44,15 @@ type retistry struct {
 	class   string
 	method  string
 	handler func(*gin.Context)
+}
+
+func NewGin() *gin.Engine {
+	r := gin.Default()
+
+	// 启动csrf
+	useCsrfMiddleware(r)
+
+	return r
 }
 
 /**
@@ -121,13 +130,11 @@ func getRetistryControllerMethod(controller any) []*retistry {
 		if v.NumMethod() > 0 {
 			for i := 0; i < v.NumMethod(); i++ {
 				method := v.Method(i)
-				// fmt.Printf("method.Name[%s]: %+s\t\t", t.Elem().Name(), t.Method(i).Name)
 				// 方法只有1个参数
 				if method.Type().NumIn() == 1 {
 					// 方法类型为：func(*gin.Context)
 					if handler, ok := method.Interface().(func(*gin.Context)); ok {
-						// 注册Gin路由
-						// _registerControllerRoute(r, t.Elem().Name(), t.Method(i).Name, handler)
+						// 当前的方法为gin的路由方法
 						rs = append(rs, &retistry{
 							class:   t.Elem().Name(),
 							method:  t.Method(i).Name,
