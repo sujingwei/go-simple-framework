@@ -2,7 +2,15 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-03-13 20:31:28
+ * @LastEditTime: 2024-03-14 18:22:51
+ * @FilePath: \go-simple-framework\web-framework\bootstrap.go
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ */
+/*
+ * @Author: sujingwei 348149047@qq.com
+ * @Date: 2024-03-10 12:25:06
+ * @LastEditors: sujingwei 348149047@qq.com
+ * @LastEditTime: 2024-03-14 18:22:06
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -64,13 +72,17 @@ func NewGin(webConfig *WebConfig) *gin.Engine {
  */
 func registerMiddleware(r *gin.Engine) {
 	log.Printf("读取当前配置的副本：%+v\n", webConfigCopy)
-	if webConfigCopy.EanbledSession {
-		// 使用session中间件
+	if webConfigCopy.EnableSession {
+		// 启用session
 		useSessionMiddleware(r)
 	}
-	if webConfigCopy.Security.Csrf.Enabled {
+	if webConfigCopy.Security.Csrf.Enable {
 		// 启动csrf
 		useCsrfMiddleware(r)
+	}
+	if webConfigCopy.Security.Xss.Enable {
+		//启动 xss
+		useXssMiddleware(r)
 	}
 }
 

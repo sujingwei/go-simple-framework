@@ -7,7 +7,9 @@ web:
     writeTimeout: 16
     idleTimeout: 16
     maxHeaderBytes: 0
-    eanbledSession: true
+    enableSession: true
     security:
         csrf: 
-            enabled: true
+            enable: false
+        xss:
+            enable: true
