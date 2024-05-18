@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-03-14 18:22:51
+ * @LastEditTime: 2024-05-18 14:50:18
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -209,7 +209,7 @@ func registerControllerRoute(r *gin.Engine, className, methodName string, handle
 			} else if Methods[i] == HEAD {
 				r.HEAD(strings.Replace(strings.ToLower(className), "controller", "", 1)+"/"+strings.Replace(strings.ToLower(methodName), HEAD, "", 1),
 					handler)
-			} else {
+			} else if Methods[i] == ANY {
 				r.Any(strings.Replace(strings.ToLower(className), "controller", "", 1)+"/"+strings.Replace(strings.ToLower(methodName), ANY, "", 1),
 					handler)
 			}
@@ -247,7 +247,7 @@ func registerGroupControllerRoute(g *gin.RouterGroup, className, methodName stri
 			} else if Methods[i] == HEAD {
 				g.HEAD(strings.Replace(strings.ToLower(className), "controller", "", 1)+"/"+strings.Replace(strings.ToLower(methodName), HEAD, "", 1),
 					handler)
-			} else {
+			} else if Methods[i] == ANY {
 				g.Any(strings.Replace(strings.ToLower(className), "controller", "", 1)+"/"+strings.Replace(strings.ToLower(methodName), ANY, "", 1),
 					handler)
 			}
