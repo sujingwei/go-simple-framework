@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-18 14:50:18
+ * @LastEditTime: 2024-05-19 17:03:14
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -44,6 +44,9 @@ var (
 	// 当前配置的副本
 	webConfigCopy WebConfig
 )
+
+// 路由注册函数
+type RegistryRouteFunc func(*gin.Engine)
 
 /**
  * @description: 注册对象
@@ -87,7 +90,7 @@ func registerMiddleware(r *gin.Engine) {
 }
 
 /**
- * @description: 启动服务
+ * @description: 启动服务，当前方法会同步阻塞
  * @param {*gin.Engine} r
  * @return {*}
  */
@@ -120,6 +123,14 @@ func WebStart(r *gin.Engine) {
 	if err := httpServer.ListenAndServe(); err != nil {
 		panic(fmt.Sprintf("The server[%s] to start failure", httpServer.Addr))
 	}
+}
+
+// 异步运行web服务
+func AsyncWebStart(webConfig *WebConfig, routeFunc RegistryRouteFunc) *gin.Engine {
+	var r *gin.Engine = NewGin(webConfig) // 生成Gin
+	routeFunc(r)                          // 路由注册
+	go WebStart(r)                        // 异步运行gin web服务
+	return r
 }
 
 /**
