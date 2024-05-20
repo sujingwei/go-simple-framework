@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-05-19 16:04:58
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-20 15:08:53
+ * @LastEditTime: 2024-05-20 15:11:42
  * @FilePath: \go-simple-framework\db\nosql\mongodb.go
  * @Description: mongodb 连接信息
  */
@@ -98,8 +98,8 @@ func createMongodbPool(mpc *MongoDbConfig) {
 // 项目中使用mongodb
 func UseMongoDB(mongoDbConfig *MongoDbConfig) {
 	if mongoDbConfig != nil {
-		if mongoDbConfig.Default != nil {
-			mongoDbConfig.Pool = append(mongoDbConfig.Pool, *mongoDbConfig.Default)
+		if mongoDbConfig != nil && (mongoDbConfig.Default.Uri != "" || mongoDbConfig.Default.Username != "" || mongoDbConfig.Default.Password != "" || mongoDbConfig.Default.AuthSource != "") {
+			mongoDbConfig.Pool = append(mongoDbConfig.Pool, mongoDbConfig.Default)
 		}
 	}
 	if len(mongoDbConfig.Pool) > 0 {
