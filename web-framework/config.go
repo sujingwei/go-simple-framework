@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-11 19:36:30
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-20 16:24:17
+ * @LastEditTime: 2024-05-20 16:40:06
  * @FilePath: \go-simple-framework\web-framework\config.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -34,6 +34,13 @@ type WebConfig struct {
 	EnableSession bool `json:"enableSession" yaml:"enableSession"`
 	// 指定html模板路径
 	Template string `json:"template" yaml:"template"`
+	// 静态资源访问配置
+	Static Static `json:"static" yaml:"static"`
+}
+
+type Static struct {
+	Path         string `json:"path" yaml:"path"`                 // 静态资源目录
+	RelativePath string `json:"relativePath" yaml:"relativePath"` // 静态资源访问路径
 }
 
 type Security struct {

@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-20 16:25:17
+ * @LastEditTime: 2024-05-20 16:43:06
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -103,6 +103,13 @@ func WebStart(r *gin.Engine) {
 	// 指定模板
 	if webConfigCopy.Template != "" {
 		r.LoadHTMLGlob(webConfigCopy.Template)
+	}
+	// 配置静态资源访问
+	if webConfigCopy.Static.Path != "" {
+		if webConfigCopy.Static.RelativePath == "" {
+			webConfigCopy.Static.RelativePath = "/static"
+		}
+		r.Static(webConfigCopy.Static.RelativePath, webConfigCopy.Static.Path)
 	}
 
 	if webConfigCopy.Addr != "" {
