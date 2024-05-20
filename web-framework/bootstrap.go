@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-10 12:25:06
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-20 14:46:15
+ * @LastEditTime: 2024-05-20 15:07:03
  * @FilePath: \go-simple-framework\web-framework\bootstrap.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -74,7 +74,7 @@ func NewGin(webConfig *WebConfig) *gin.Engine {
  * @return {*}
  */
 func registerMiddleware(r *gin.Engine) {
-	log.Printf("读取当前配置的副本：%+v\n", webConfigCopy)
+	// log.Printf("读取当前配置的副本：%+v\n", webConfigCopy)
 	if webConfigCopy.EnableSession {
 		// 启用session
 		useSessionMiddleware(r)
@@ -122,6 +122,8 @@ func WebStart(r *gin.Engine) {
 	log.Printf("Start Server: %+v\n", httpServer.Addr)
 	if err := httpServer.ListenAndServe(); err != nil {
 		panic(fmt.Sprintf("The server[%s] to start failure", httpServer.Addr))
+	} else {
+		log.Printf("Web Server Start Success, Addr: [%s]\n", httpServer.Addr)
 	}
 }
 

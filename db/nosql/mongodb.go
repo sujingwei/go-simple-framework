@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-05-19 16:04:58
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-19 17:35:37
+ * @LastEditTime: 2024-05-20 15:08:53
  * @FilePath: \go-simple-framework\db\nosql\mongodb.go
  * @Description: mongodb 连接信息
  */
@@ -31,7 +31,7 @@ type MongoConnectionConfig struct {
 // Mongodb连接池
 type MongoDbConfig struct {
 	Pool    []MongoConnectionConfig `json:"pool" yaml:"pool"`       // 连接池，连接池中默认没有出现default，就使用Default的配置，如果出现
-	Default *MongoConnectionConfig  `json:"default" yaml:"default"` // 单独配置mongodb
+	Default MongoConnectionConfig   `json:"default" yaml:"default"` // 单独配置mongodb
 }
 
 var (
