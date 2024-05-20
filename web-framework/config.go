@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-03-11 19:36:30
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-03-14 18:20:47
+ * @LastEditTime: 2024-05-20 16:24:17
  * @FilePath: \go-simple-framework\web-framework\config.go
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  */
@@ -32,6 +32,8 @@ type WebConfig struct {
 	Security Security `json:"security" yaml:"security"`
 	// 是否启用session
 	EnableSession bool `json:"enableSession" yaml:"enableSession"`
+	// 指定html模板路径
+	Template string `json:"template" yaml:"template"`
 }
 
 type Security struct {

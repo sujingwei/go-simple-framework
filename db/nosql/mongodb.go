@@ -2,7 +2,7 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-05-19 16:04:58
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-05-20 15:11:42
+ * @LastEditTime: 2024-05-20 15:29:08
  * @FilePath: \go-simple-framework\db\nosql\mongodb.go
  * @Description: mongodb 连接信息
  */
@@ -81,6 +81,7 @@ func createMongodbPool(mpc *MongoDbConfig) {
 		}
 		if c, err := mcc.connect(); err != nil {
 			log.Fatal(err)
+			panic(err)
 		} else {
 			key := DefaultName // 如果为空
 			if mcc.Key != "" {
@@ -90,7 +91,7 @@ func createMongodbPool(mpc *MongoDbConfig) {
 			mongodbPool[key] = c
 			// 对应的库名称
 			mongodbKeyToDatabaseName[key] = mcc.AuthSource
-			log.Printf("create mongodb pool, database: %s, minPoolSize: %d, maxPoolSize: %d\n", c.Database(mcc.AuthSource).Name(), mcc.MaxPoolSize, mcc.MinPoolSize)
+			log.Printf("create mongodb pool, key: [%s], database: %s, minPoolSize: %d, maxPoolSize: %d\n", mcc.Key, c.Database(mcc.AuthSource).Name(), mcc.MaxPoolSize, mcc.MinPoolSize)
 		}
 	}
 }
