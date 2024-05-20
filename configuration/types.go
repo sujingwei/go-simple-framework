@@ -2,19 +2,29 @@
  * @Author: sujingwei 348149047@qq.com
  * @Date: 2024-01-26 17:04:32
  * @LastEditors: sujingwei 348149047@qq.com
- * @LastEditTime: 2024-01-27 13:00:49
+ * @LastEditTime: 2024-05-20 14:35:58
  * @FilePath: \amy-config\configuration\amyconfig.go
  * @Description: 默认封装配置类
  */
 package configuration
+
+import (
+	"github.com/sujingwei/go-simple-framework/db/nosql"
+	webframework "github.com/sujingwei/go-simple-framework/web-framework"
+)
 
 /**
  * @description: 默认配置
  * @return {*}
  */
 type App struct {
-	Name string `json:"name" yaml:"name"`
-	Env  string `default:"dev" json:"env" yaml:"env"`
+	Name string `json:"name" yaml:"name"`             // 项目名称
+	Env  string `default:"dev" json:"env" yaml:"env"` // 当前环境
+	// web相关
+	Web webframework.WebConfig `json:"web" yaml:"web"` // web相关的配置
+
+	// 数据库存相关
+	Mongo nosql.MongoDbConfig `json:"mongo" yaml:"mongo"` // mongoDB连接配置
 }
 
 /* 配置文件信息 */
