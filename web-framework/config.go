@@ -38,16 +38,19 @@ type WebConfig struct {
 	Static Static `json:"static" yaml:"static"`
 }
 
+// 配置状态资源目录
 type Static struct {
 	Path         string `json:"path" yaml:"path"`                 // 静态资源目录
 	RelativePath string `json:"relativePath" yaml:"relativePath"` // 静态资源访问路径
 }
 
+// 配置web相关的安全操作
 type Security struct {
 	Csrf CsrfConfig `json:"csrf" yaml:"csrf"`
 	Xss  XssConfig  `json:"xss" yaml:"xss"`
 }
 
+// csrf配置
 type CsrfConfig struct {
 	// 启动csrf
 	Enable bool `json:"enable" yaml:"enable"`
@@ -56,6 +59,8 @@ type CsrfConfig struct {
 	// csrf生存时间，单位秒
 	MaxAge int `json:"maxAge" yaml:"authKey"`
 }
+
+// xss配置
 type XssConfig struct {
 	// 启动csrf
 	Enable bool `json:"enable" yaml:"enable"`

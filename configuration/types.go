@@ -9,7 +9,6 @@
 package configuration
 
 import (
-	"github.com/sujingwei/go-simple-framework/db/nosql"
 	webframework "github.com/sujingwei/go-simple-framework/web-framework"
 )
 
@@ -24,7 +23,7 @@ type App struct {
 	Web webframework.WebConfig `json:"web" yaml:"web"` // web相关的配置
 
 	// 数据库存相关
-	Mongo nosql.MongoDbConfig `json:"mongo" yaml:"mongo"` // mongoDB连接配置
+	// Mongo nosql.MongoDbConfig `json:"mongo" yaml:"mongo"` // mongoDB连接配置
 }
 
 /* 配置文件信息 */
