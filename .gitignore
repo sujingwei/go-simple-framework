@@ -21,3 +21,6 @@
 go.work
 go.sum
 .vscode
+
+.claude/worktrees/
+.claude/settings.local.json
